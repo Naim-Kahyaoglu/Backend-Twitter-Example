@@ -1,50 +1,116 @@
-# FSWEB-s19-Challenge
+# Twitter API Clone
 
-Twitter Api
+A Twitter-like API built with Spring Boot, featuring tweets, comments, likes, and retweets.
 
-Hedef:
+## Project Overview
 
-  Bu projenini amacı Spring Boot ile ilgili öğrendiğimiz tüm konuları Pratik etmek amacıyla bir Backend projesi tasarlamaktır.
-  Amacımız Twitter uygulamasını biz yazsaydık nasıl yazardık ? Nelere dikkat ederdik Design ve Implementation kısımlarını nasıl yapardık bunu test etmektir.
+This project is a Twitter API clone built using Spring Boot, implementing core Twitter functionalities:
+- User registration and authentication with JWT
+- Creating and managing tweets
+- Adding comments to tweets
+- Liking and unliking tweets
+- Retweeting functionality
 
-# Fonksiyonel Zorunluluklar
+## Technologies Used
 
-- Proje Spring Boot teknolojisi kullanarak dizayn edilecektir. Veritabanı olarak PostgreSQL kullanılacaktır.
-- Endpoints:
+### Backend
+- Java 17
+- Spring Boot 3.2.5
+- Spring Data JPA
+- Spring Security with JWT
+- PostgreSQL
+- JUnit and Mockito for testing
 
-    ### EASY
-     *  http://localhost:3000/tweet[POST] => Tweet oluşturma ve veritabanına kaydetme. Tweet'in hangi kullanıcıya ait olduğu mutlaka tutulmalıdır. Anonym tweetler olmamalıdır.
-     *  http://localhost:3000/tweet/findByUserId[GET] => Bir kullanıcının tüm tweetlerini getirmelidir.
-     *  http://localhost:3000/tweet/findById[GET] => Bir tweet için tüm bilgilerini getirmelidir.
-     *  http://localhost:3000/tweet/:id[PUT] => Bir tweet üzerinde değiştirelecek kısımları update etmek için kullanılmalıdır.
-     *  http://localhost:3000/tweet/:id[DELETE] => Id bilgisi verilen tweeti silmek için kullanılır.(Sadece tweet sahibi ilgili tweeti silebilimelidir.)
+### Frontend (Optional)
+- React.js
+- Axios for API requests
+- CSS for styling
 
-    ### MEDIUM
-     * http://localhost:3000/comment/[POST] => Bir tweete bir kullanıcı tarafından yorum yazılmasını sağlar.
-     * http://localhost:3000/comment/:id[PUT] => Bir tweete bir kullanıcı tarafından yapılan yorumun update edilmesine olanak sağlar.
-     * http://localhost:3000/comment/:id[DELETE] => Bir tweete bir kullanıcı tarafından yapılan yorumun silinmesini sağlar(Sadece tweet sahibi veya yorum sahibi ilgili yorumu silebilmelidir).
-     * http://localhost:3000/like/[POST] => Bir tweete bir kullanıcı tarafından like atılmasını sağlar.
-     *  http://localhost:3000/dislike/[POST] => Bir tweete bir kullanıcı tarafından like atıldıysa bunun silinmesini sağlar.
-	
-    ### HARD
-     * http://localhost:3000/retweet/[POST] => Bir tweetin bir kullanıcı tarafından retweet edilmesini sağlar.(Twitter üzerinden retweet özelliğini test ediniz.)
-     * http://localhost:3000/retweet/:id[DELETE] => Retweet edilmiş bir tweetin silinmesi sağlanmalıdır.    
+## Project Structure
 
-# Mimari Zorunluluklar
+The project follows a layered architecture:
+- **Entity Layer**: Domain models like User, Tweet, Comment, etc.
+- **Repository Layer**: Spring Data JPA repositories
+- **Service Layer**: Business logic
+- **Controller Layer**: REST endpoints
+- **Security**: JWT-based authentication and authorization
+- **Exception Handling**: Global exception handling
 
- - Apimizi hazırlarkan öncelikle tweet, user, comment, like, retweet gibi özellikleri ekleyebilmek adına veritabanımızın nasıl olması gerektiği ile ilgili bir hazırlık yapmalıyız.
-   Veritabanı dizaynı proje için yapmamız gereken ilk adım.
- - Controller/Service/Repository/Entity katmanlı mimarisi üzerinde sisteminizi dizayn etmelisiniz. 
- - Sisteminiz için tek bir merkezden Global Exception Handling yapmanız beklenmektedir.
- - Sisteminizde Entity katmanınız üzerinde veritabanınıza gidecek olan fieldlar için validasyon yapmış olmanız beklenmektedir.
- - Dependency Injection kurallarına uymalısınız.
- - Yukarda bahsedilen endpointler dışında /register ve /login isminde 2 tane daha endpointiniz olmalı ve security katmanını Spring Security kullanarak yönetmelisiniz.
- - Projenizde yazılmış fonksiyonları %30'u için Unit Test yazmanız baklenmektedir.
+## Getting Started
 
+### Prerequisites
+- Java 17+
+- Maven
+- PostgreSQL
+- Node.js and npm (for frontend)
 
-# FullStack Developer Muscles:
+### Backend Setup
+1. Clone the repository
+2. Configure PostgreSQL database in `application.properties`
+3. Run the Spring Boot application:
+   ```
+   cd twitter-api
+   ./mvnw spring-boot:run
+   ```
 
-  - Twitter Api için bir React ön yüzü oluşturunuz. Bu React ön yüzünün çok detaylı olmasına gerek yoktur. Mesela kullanıcının tüm tweetlerini ekrana basan bir component dizaynı yapılabilir.
-  - Burada amacımız CORS hatası denilen bir problemi gözlemleyip bunun çözümünü tecrübe etmektir. React uygulamanızı 3200 portundan ayağa kaldırınız. 
-  - Component'iniz üzerinde kendi yazdığınız endpointlerden biri olan http://localhost:3000/tweet/findByUserId adresine get requesti atınız. Gelen tweetleri ekrana bastırınız.
-  - Karşılaştığınız CORS hatasını nasıl çözersiniz ?
+The API will be available at http://localhost:3000
+
+### Frontend Setup (Optional)
+1. Install dependencies:
+   ```
+   cd twitter-frontend
+   npm install
+   ```
+2. Run the development server:
+   ```
+   npm start
+   ```
+   
+The frontend will be available at http://localhost:3200
+
+## API Endpoints
+
+### Authentication
+- POST `/register` - Register a new user
+- POST `/login` - Login and get JWT token
+
+### Tweets
+- POST `/tweet` - Create a new tweet
+- GET `/tweet/findByUserId` - Get all tweets by user ID
+- GET `/tweet/findById` - Get a tweet by ID
+- PUT `/tweet/:id` - Update a tweet
+- DELETE `/tweet/:id` - Delete a tweet
+
+### Comments
+- POST `/comment/` - Add a comment to a tweet
+- PUT `/comment/:id` - Update a comment
+- DELETE `/comment/:id` - Delete a comment
+- GET `/comment/tweet/:tweetId` - Get all comments for a tweet
+
+### Likes
+- POST `/like` - Like a tweet
+- POST `/dislike` - Unlike a tweet
+- GET `/like/count` - Get like count for a tweet
+- GET `/like/check` - Check if a user has liked a tweet
+
+### Retweets
+- POST `/retweet/` - Retweet a tweet
+- DELETE `/retweet/:id` - Delete a retweet
+- GET `/retweet/count` - Get retweet count for a tweet
+- GET `/retweet/check` - Check if a user has retweeted a tweet
+
+## Testing
+
+Run the unit tests:
+```
+cd twitter-api
+./mvnw test
+```
+
+## CORS Configuration
+
+The backend includes CORS configuration to allow requests from the frontend running on port 3200.
+
+## Contributing
+
+Feel free to submit issues or pull requests for any improvements or bug fixes.
